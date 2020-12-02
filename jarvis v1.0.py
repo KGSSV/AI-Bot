@@ -74,8 +74,8 @@ def sendemail(to, content):
     server.starttls()
 
     # now make your bot login to your gmail
-    server.login("kgssvak2@gmail.com", "kemddkhlcskoqehs")
-    server.sendmail('kgssvak2@gmail.com', to, content)
+    server.login("email", "pass")
+    server.sendmail('email', to, content)
     server.quit()
 
 
@@ -92,10 +92,10 @@ def cpu():
 
 if __name__ == "__main__":
 
-    # wishme_()
+    wishme_()
 
     while True:
-        query = input()
+        query = takecmd()
 
         if 'time' in query:
             time_()
