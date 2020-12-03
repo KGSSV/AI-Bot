@@ -7,9 +7,11 @@ import webbrowser as wb
 import psutil
 
 engine = pyttsx3.init()
+voices = engine.getProperty('voices')
 
 
 def speak(audio):
+    engine.setProperty('voice', voices[1].id)
     engine.say(audio)
     engine.runAndWait()
 
@@ -33,20 +35,21 @@ def date_():
 
 def wishme_():
     hour = datetime.datetime.now().hour
-    speak('Welcome Back Akhil')
+
+    speak('Welcome Back AKhil')
     time_()
     date_()
 
-    if hour > 6 and hour < 12:
+    if hour > 6 and hour <= 12:
         speak('Good morning Sir')
-    elif hour > 12 and hour < 18:
+    elif hour > 12 and hour <= 18:
         speak('Good afternoon Sir')
-    elif hour > 18 and hour < 23:
+    elif hour > 18 and hour <= 23:
         speak('Good evening Sir')
     else:
         speak('Good night Sir')
 
-    speak('Zeebo at your service. what can i do for you today')
+    speak('friday at your service. what can i do for you today')
 
 
 def takecmd():
@@ -74,8 +77,8 @@ def sendemail(to, content):
     server.starttls()
 
     # now make your bot login to your gmail
-    server.login("email", "pass")
-    server.sendmail('email', to, content)
+    server.login("kgssvak2@gmail.com", "zxhejfowhpuqwrga")
+    server.sendmail('kgssvak2@gmail.com', to, content)
     server.quit()
 
 
@@ -111,16 +114,43 @@ if __name__ == "__main__":
             print(result)
             speak(result)
 
-        elif 'send email' in query:
+        elif 'email' in query:
+            email_flag = 1
             try:
-                speak('What should i send')
-                content = takecmd()
-                speak('who should i send the email')
-                to = input('Enter the Reciever Email :')
-                speak('sending :')
-                speak(content)
+                speak('What should i send sir')
+
+                while True:
+                    if email_flag == 0:
+                        break
+                    content = takecmd()
+                    resp = ''
+                    if content == 'None':
+                        speak(
+                            'did not understand sir !!! do you want to type the email')
+                        resp = takecmd()
+                        if 'no' in resp:
+                            speak('Please Say the message clearly')
+                            content = takecmd()
+                        if 'yes' in resp:
+                            content = input('Enter email content : ')
+                    speak('is it ok to send this email content')
+                    response = takecmd()
+                    choice = ['ok', 'yes', 'yup',
+                              'done', 'okay', 'fine']
+                    for word in choice:
+                        if word in response:
+                            email_flag = 0
+                            break
+                    ch = ['nope', 'don\'t', 'no']
+                    for word in ch:
+                        if word in response:
+                            speak('please say email content again')
+                            break
+                speak('Who do you want to send sir')
+                to = input('Receiver email :')
+                speak('sending')
                 sendemail(to, content)
-                speak('Email Sent Successfully')
+                speak('email sent successfully sir')
 
             except Exception as e:
                 print(e)
@@ -156,5 +186,5 @@ if __name__ == "__main__":
             wb.get(path).open_new_tab(
                 'https://www.google.com/search?q=' + search)
 
-        elif 'cpu' or ' battery' in query:
+        elif 'cpu' in query:
             cpu()
