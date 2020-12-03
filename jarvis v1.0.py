@@ -77,7 +77,7 @@ def sendemail(to, content):
     server.starttls()
 
     # now make your bot login to your gmail
-    server.login("kgssvak2@gmail.com", "zxhejfowhpuqwrga")
+    server.login("kgssvak2@gmail.com", "key")
     server.sendmail('kgssvak2@gmail.com', to, content)
     server.quit()
 
