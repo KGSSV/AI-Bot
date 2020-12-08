@@ -223,7 +223,7 @@ if __name__ == "__main__":
                 if word not in choice:
                     speak('ok')
                     break
-                speak('please say what else to remember')
+                speak('please say what else to remember!!')
 
         elif 'show' in query:
             file = open('notes.txt', 'r')
