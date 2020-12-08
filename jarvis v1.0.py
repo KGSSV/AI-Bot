@@ -5,6 +5,7 @@ import wikipedia
 import smtplib
 import webbrowser as wb
 import psutil
+import pyjokes
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -77,7 +78,7 @@ def sendemail(to, content):
     server.starttls()
 
     # now make your bot login to your gmail
-    server.login("kgssvak2@gmail.com", "key")
+    server.login("kgssvak2@gmail.com", "zxhejfowhpuqwrga")
     server.sendmail('kgssvak2@gmail.com', to, content)
     server.quit()
 
@@ -93,9 +94,14 @@ def cpu():
     speak(batper.percent)
 
 
+def joke():
+    speak('Lets try This!!')
+    speak(pyjokes.get_joke())
+
+
 if __name__ == "__main__":
 
-    wishme_()
+    # wishme_()
 
     while True:
         query = takecmd()
@@ -114,7 +120,7 @@ if __name__ == "__main__":
             print(result)
             speak(result)
 
-        elif 'email' in query:
+        elif ('send' and ('email' or 'mail')) in query:
             email_flag = 1
             try:
                 speak('What should i send sir')
@@ -133,6 +139,7 @@ if __name__ == "__main__":
                             content = takecmd()
                         if 'yes' in resp:
                             content = input('Enter email content : ')
+                    print(content)
                     speak('is it ok to send this email content')
                     response = takecmd()
                     choice = ['ok', 'yes', 'yup',
@@ -148,7 +155,7 @@ if __name__ == "__main__":
                             break
                 speak('Who do you want to send sir')
                 to = input('Receiver email :')
-                speak('sending')
+                speak('Sending')
                 sendemail(to, content)
                 speak('email sent successfully sir')
 
@@ -188,3 +195,36 @@ if __name__ == "__main__":
 
         elif 'cpu' in query:
             cpu()
+
+        elif ('laugh' or 'joke') in query:
+            joke()
+
+        elif ('offline') in query:
+            speak('friday Going offline sir.')
+
+            quit()
+        elif ('remember' or 'note') in query:
+            if 'remember' in query:
+                speak('What do you want me to remember!')
+            elif 'note' in query:
+                speak('what do you want me to note!!')
+            file = open('notes.txt', 'w')
+            while True:
+                notes = takecmd()
+                currenttime = datetime.datetime.now().strftime('%I:%M:%S')
+                file.write(currenttime)
+                file.write(':-')
+                file.write(notes)
+                file.write('\n')
+                speak('remembered successfully...  want to take an another note')
+                word = takecmd()
+                choice = ['ok', 'yes', 'yup',
+                          'done', 'okay', 'fine']
+                if word not in choice:
+                    speak('ok')
+                    break
+                speak('please say what else to remember')
+
+        elif 'show' in query:
+            file = open('notes.txt', 'r')
+            print(file.read())
