@@ -6,6 +6,11 @@ import smtplib
 import webbrowser as wb
 import psutil
 import pyjokes
+import string
+import random
+import pyautogui
+import os
+
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -97,6 +102,16 @@ def cpu():
 def joke():
     speak('Lets try This!!')
     speak(pyjokes.get_joke())
+
+
+def screenshot():
+    n = 7
+    name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=n))
+
+    img = pyautogui.screenshot()
+    #path = 'C:/Users/akura/Desktop/{nam}.png'.format(nam=name)
+    img.save('{nam}.png'.format(nam=name))
+    speak('image saved successfully under name {n}'.format(n=name))
 
 
 if __name__ == "__main__":
@@ -228,3 +243,17 @@ if __name__ == "__main__":
         elif 'show' in query:
             file = open('notes.txt', 'r')
             print(file.read())
+
+        elif 'screenshot' in query:
+            speak('taking screenshot')
+            screenshot()
+
+        elif ('songs' or 'song') in query:
+            songsdir = 'C:/Songs'
+            music = os.listdir(songsdir)
+            speak('what should i play')
+            print(music)
+            ans = input()
+
+            no = int(ans.replace('number', ''))
+            os.startfile(os.path.join(songsdir, music[no]))
