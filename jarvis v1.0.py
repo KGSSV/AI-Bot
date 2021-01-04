@@ -10,7 +10,7 @@ import string
 import random
 import pyautogui
 import os
-
+import requests
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -60,9 +60,12 @@ def wishme_():
 
 def takecmd():
     r = sr.Recognizer()
+    r.energy_threshold = 4000
     with sr.Microphone() as source:
         print('Listening....')
-        r.pause_threshold = 1  # waits for one second as threshold if no input to microphone given
+        # waits for one second as threshold if no input to microphone given
+        r.pause_threshold = 1
+
         audio = r.listen(source)
 
     try:
@@ -83,7 +86,7 @@ def sendemail(to, content):
     server.starttls()
 
     # now make your bot login to your gmail
-    server.login("kgssvak2@gmail.com", "zxhejfowhpuqwrga")
+    server.login("kgssvak2@gmail.com", "key / pass")
     server.sendmail('kgssvak2@gmail.com', to, content)
     server.quit()
 
@@ -196,7 +199,7 @@ if __name__ == "__main__":
             wb.get(path).open_new_tab(
                 'https://www.youtube.com/results?search_query=' + search)
 
-        elif 'search google' in query:
+        elif 'search Google' in query:
             speak('what should i search')
             path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 
@@ -257,3 +260,15 @@ if __name__ == "__main__":
 
             no = int(ans.replace('number', ''))
             os.startfile(os.path.join(songsdir, music[no]))
+
+        elif 'news' in query:
+            url = 'http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey='
+            response = requests.request('GET', url)
+            print(response)
+            response = response.json()
+            i = 1
+            for item in response['articles']:
+                print(str(i) + '. ' + item['title']+'\n')
+                print(item['description'])
+                i += 1
+                print()
