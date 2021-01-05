@@ -138,7 +138,7 @@ if __name__ == "__main__":
             print(result)
             speak(result)
 
-        elif ('send' and ('email' or 'mail')) in query:
+        elif 'send' in query and ('mail' or 'email') in query:
             email_flag = 1
             try:
                 speak('What should i send sir')
@@ -181,13 +181,13 @@ if __name__ == "__main__":
                 print(e)
                 speak('Sending failed')
 
-        elif 'search in chrome' in query:
+        elif 'search in Chrome' in query:
             speak('what should i search')
             path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 
             search = takecmd().lower()
             # takes the path to exe appends in url form with .com
-            wb.get(path).open_new_tab(search + '.com')
+            wb.get(path).open_new_tab('https://google.com/search/' + search)
 
         elif 'search youtube' in query:
             speak('what should i search')
@@ -272,3 +272,10 @@ if __name__ == "__main__":
                 print(item['description'])
                 i += 1
                 print()
+
+        elif 'where is' in query or 'locate' in query:
+            speak('what should i locate')
+            location = takecmd()
+            speak('locating' + location)
+            p = 'https://www.google.com/maps/place/' + location
+            wb.open_new_tab(p)
